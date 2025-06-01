@@ -25,9 +25,3 @@ EXPOSE 3000
 
 # Start the application
 CMD ["serve", "-s", "dist", "-l", "3000"]
-
-# Expose port
-EXPOSE 80
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
