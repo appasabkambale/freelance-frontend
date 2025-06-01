@@ -1,26 +1,30 @@
-# Step 1: Build the app
-FROM node:18-alpine AS builder
+# Use Node.js as base image
+FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and install dependencies
-COPY package.json package-lock.json* ./
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
-# Copy the rest of the app and build it
-COPY . .
+# Copy project files
 COPY .env .env
-RUN npm run build
+COPY . .
 
-# Step 2: Serve the build with a lightweight web server
-FROM nginx:alpine
+# Build the app
+RUN node --max-old-space-size=1024 node_modules/vite/bin/vite.js build
 
-# Copy built files from builder
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Install serve to run the application
+RUN npm install -g serve
 
-# Copy custom nginx config if needed
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Expose port
+EXPOSE 3000
+
+# Start the application
+CMD ["serve", "-s", "dist", "-l", "3000"]
 
 # Expose port
 EXPOSE 80
