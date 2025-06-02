@@ -25,7 +25,7 @@ const Home = () => {
       <div className="features">
         <div className="container">
           <div className="item">
-            <h1>A whole world of freelance talent at your fingertips</h1>
+            <h1>A retire world of freelance talent at your fingertips</h1>
             <div className="title">
               <img src="./media/check.png" alt="check" />
               <h6>The best for every budget</h6>
